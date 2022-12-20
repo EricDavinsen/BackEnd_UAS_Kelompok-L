@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use App\Notification\Email;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 

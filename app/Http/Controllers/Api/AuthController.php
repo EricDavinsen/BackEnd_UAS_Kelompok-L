@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Validator\Rule;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -25,7 +27,8 @@ class AuthController extends Controller
 
         $registrationData['password'] = bcrypt($request->password);
         $user = User::create($registrationData);
-        $user->sendApiEmailVerificationNotification();
+        // $user->sendApiEmailVerificationNotification();
+        event(new Registered($user));
 
         return response([
             'message' => 'Register Success',

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmailVerifController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +15,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('email/verify/{id}', 'Api\EmailVerifController@verify')->name('verificationapi.verify');
-Route::get('email/resend', 'Api\EmailVerifController@resend')->name('verificationapi.resend');
+// Route::get('email/verify/{id}', 'Api\EmailVerifController@verify')->name('verificationapi.verify');
+// Route::get('email/resend', 'Api\EmailVerifController@resend')->name('verificationapi.resend');
 
 Route::post('register', 'Api\AuthController@register');
 Route::post('login', 'Api\AuthController@login');
+
+Route::get('/email/verify/{id}/{hash}', [EmailVerifController::class, '__invoke'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
+
+Route::post('/email/verify/resend', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/email/verify/success', function () {
+    return view('mail');
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
