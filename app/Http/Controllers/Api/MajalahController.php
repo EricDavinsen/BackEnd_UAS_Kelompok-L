@@ -50,7 +50,7 @@ class MajalahController extends Controller
         
         $majalah = Majalah::create($storeData);
         return response([
-            'message' => 'Add Majalah Success',
+            'message' => 'Add Magazine Success',
             'data' => $majalah
         ], 200);
 
@@ -62,13 +62,13 @@ class MajalahController extends Controller
 
         if(!is_null($majalah)){
             return response([
-                'message' => 'Retrieve Majalah Success',
+                'message' => 'Retrieve Magazine Success',
                 'data' => $majalah
             ], 200);
         }
 
         return response([
-            'message' => 'Majalah Not Found',
+            'message' => 'Magazine Not Found',
             'data' => null
         ], 404);
     }
@@ -96,7 +96,7 @@ class MajalahController extends Controller
         $majalah = Majalah::find($id);
         if(is_null($majalah)){
             return response([
-                'message' => 'Majalah Not Found',
+                'message' => 'Magazine Not Found',
                 'data' => null
             ], 404);
         }
@@ -121,13 +121,13 @@ class MajalahController extends Controller
 
         if($majalah->save()) {
             return response([
-                'message' => 'Update Majalah Success',
+                'message' => 'Update Magazine Success',
                 'data' => $majalah
             ], 200);
         }
 
         return response([
-            'message' => 'Update Majalah Failed',
+            'message' => 'Update Magazine Failed',
             'data' => null
         ], 400);
     }
@@ -144,20 +144,20 @@ class MajalahController extends Controller
 
         if(is_null($majalah)){
             return response([
-                'message' => 'Majalah Not Found',
+                'message' => 'Magazine Not Found',
                 'data' => null
             ], 404);
         }
 
         if($majalah->delete()){
             return response([
-                'message' => 'Delete Majalah Success',
+                'message' => 'Delete Magazine Success',
                 'data' => $majalah
             ], 200);
         }
 
         return response([
-            'message' => 'Delete Majalah Failed',
+            'message' => 'Delete Magazine Failed',
             'data' => null
         ], 400);
     }

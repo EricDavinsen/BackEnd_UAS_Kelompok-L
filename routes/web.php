@@ -23,3 +23,6 @@ Route::resource('/buku',
 Route::resource('/majalah',
 \App\Http\Controllers\Api\MajalahController::class);
 
+Route::resource('/pegawai',
+\App\Http\Controllers\Api\PegawaiController::class);
+

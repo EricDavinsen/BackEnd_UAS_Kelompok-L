@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Validator;
-use App\Models\Buku;
+use App\Models\Pegawai;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 
-class BukuController extends Controller
+class PegawaiController extends Controller
 {
         /**
     * index
@@ -18,12 +18,12 @@ class BukuController extends Controller
     */
     public function index()
     {
-        $bukus = Buku::all();
+        $pegawais = Pegawai::all();
 
-        if(count($bukus) > 0){
+        if(count($pegawais) > 0){
             return response([
                 'message' => 'Retrieve All Success',
-                'data' => $bukus 
+                'data' => $pegawais 
             ], 200);
         }
 
@@ -37,37 +37,38 @@ class BukuController extends Controller
     {
         $storeData = $request->all();
         $validate = Validator::make($storeData, [
-            'judul_buku' => 'required',
-            'penerbit' => 'required',
-            'harga_buku' => 'required|numeric',
-            'jumlah_buku' => 'required|numeric'
+            'nama_pegawai' => 'required',
+            'alamat' => 'required',
+            'umur' => 'required',
+            'jenis_kelamin' => 'required',
+            'tugas' => 'required'
         ]);
 
         if($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
         
-        $buku = Buku::create($storeData);
+        $pegawai = Pegawai::create($storeData);
         return response([
-            'message' => 'Add Book Success',
-            'data' => $buku
+            'message' => 'Add Employee Success',
+            'data' => $pegawai
         ], 200);
 
     }
 
     public function show($id)
     {
-        $buku = Buku::find($id);
+        $pegawai = Pegawai::find($id);
 
-        if(!is_null($buku)){
+        if(!is_null($pegawai)){
             return response([
-                'message' => 'Retrieve Book Success',
-                'data' => $buku
+                'message' => 'Retrieve Employee Success',
+                'data' => $pegawai
             ], 200);
         }
 
         return response([
-            'message' => 'Book Not Found',
+            'message' => 'Employee Not Found',
             'data' => null
         ], 404);
     }
@@ -92,39 +93,41 @@ class BukuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $buku = Buku::find($id);
-        if(is_null($buku)){
+        $pegawai = Pegawai::find($id);
+        if(is_null($pegawai)){
             return response([
-                'message' => 'Book Not Found',
+                'message' => 'Employee Not Found',
                 'data' => null
             ], 404);
         }
 
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'judul_buku' => ['required', Rule::unique('bukus')->ignore($buku)],
-            'penerbit' => 'required',
-            'harga_buku' => 'required|numeric',
-            'jumlah_buku' => 'required|numeric'
+            'nama_pegawai' => ['required', Rule::unique('pegawais')->ignore($pegawai)],
+            'alamat' => 'required',
+            'umur' => 'required',
+            'jenis_kelamin' => 'required',
+            'tugas' => 'required'
         ]);
 
         if($validate->fails())
             return response(['message' => $validate->errors()], 400);
 
-        $buku->judul_buku = $updateData['judul_buku'];
-        $buku->penerbit = $updateData['penerbit'];
-        $buku->harga_buku = $updateData['harga_buku'];
-        $buku->jumlah_buku = $updateData['jumlah_buku'];
+        $pegawai->nama_pegawai = $updateData['nama_pegawai'];
+        $pegawai->alamat = $updateData['alamat'];
+        $pegawai->umur = $updateData['umur'];
+        $pegawai->jenis_kelamin = $updateData['jenis_kelamin'];
+        $pegawai->tugas = $updateData['tugas'];
 
-        if($buku->save()) {
+        if($pegawai->save()) {
             return response([
-                'message' => 'Update Book Success',
-                'data' => $buku
+                'message' => 'Update Employee Success',
+                'data' => $pegawai
             ], 200);
         }
 
         return response([
-            'message' => 'Update Book Failed',
+            'message' => 'Update Employee Failed',
             'data' => null
         ], 400);
     }
@@ -137,24 +140,24 @@ class BukuController extends Controller
      */
     public function destroy($id)
     {
-        $buku = Buku::find($id);
+        $pegawai = Pegawai::find($id);
 
-        if(is_null($buku)){
+        if(is_null($pegawai)){
             return response([
-                'message' => 'Book Not Found',
+                'message' => 'Employee Not Found',
                 'data' => null
             ], 404);
         }
 
-        if($buku->delete()){
+        if($pegawai->delete()){
             return response([
-                'message' => 'Delete Book Success',
-                'data' => $buku
+                'message' => 'Delete Employee Success',
+                'data' => $pegawai
             ], 200);
         }
 
         return response([
-            'message' => 'Delete Book Failed',
+            'message' => 'Delete Employee Failed',
             'data' => null
         ], 400);
     }

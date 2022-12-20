@@ -38,6 +38,12 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('majalah', 'Api\MajalahController@store');
     Route::put('majalah/{id}', 'Api\MajalahController@update');
     Route::delete('majalah/{id}', 'Api\MajalahController@destroy');
+
+    Route::get('pegawai', 'Api\PegawaiController@index');
+    Route::get('pegawai/{id}', 'Api\PegawaiController@show');
+    Route::post('pegawai', 'Api\PegawaiController@store');
+    Route::put('pegawai/{id}', 'Api\PegawaiController@update');
+    Route::delete('pegawai/{id}', 'Api\PegawaiController@destroy');
     
     Route::get('user', 'Api\UserController@index');
     Route::get('user/{id}', 'Api\UserController@show');
